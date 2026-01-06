@@ -8,7 +8,9 @@ This repository provides the computational framework and statistical analysis fo
 
 ## 📢 Availability Notice
 
-**Data Availability:** To comply with institutional policies and protect pending research, the `data/` directories currently contain placeholder files. **Full datasets will be made publicly available upon the formal publication of the manuscript.** **Code Availability:** The core analytical scripts (`main.py`) are provided. However, they require the datasets to execute fully. Reviewers or researchers requesting early access for validation may contact the authors.
+**Data Availability:** To comply with institutional policies and protect pending research, the `data/` directories currently contain placeholder files. **Full datasets will be made publicly available upon the formal publication of the manuscript.**
+
+**Code Availability:** The core analytical scripts (`main.py`) are provided. However, they require the datasets to execute fully. Reviewers or researchers requesting early access for validation may contact the authors.
 
 ---
 
