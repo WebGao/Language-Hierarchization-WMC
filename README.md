@@ -19,13 +19,13 @@ The repository is organized into three main modules, each corresponding to a spe
 ```text
 Language-Hierarchization-WMC
 ├── OpenNodes_Alice               # Multilingual analysis (8 languages)
-│   ├── data/                     # [To be released upon publication]
+│   ├── data (Alice Corpus)/                     # [To be released upon publication]
 │   └── main.py                   # Script for cross-linguistic optimization analysis
 ├── OpenNodes_Child               # Developmental trajectory analysis (Ages 3-8)
-│   ├── data/                     # [To be released upon publication]
+│   ├── data (Child Spoken Language Corpus)/                     # [To be released upon publication]
 │   └── main.py                   # Script for developmental evolution analysis
 └── OpenNodes_Natural_Language    # Adult natural language validation
-    ├── data/                     # [To be released upon publication]
+    ├── data (Classics Corpus)/                     # [To be released upon publication]
     └── main.py                   # Script for large-scale corpus analysis
 
 ```
