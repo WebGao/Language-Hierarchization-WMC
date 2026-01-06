@@ -55,13 +55,13 @@ python main.py
 
 ```
 
-## ⚙️ Core Methodology
+<!-- ## ⚙️ Core Methodology
 
 The code implements:
 
 * **Maximum Likelihood Estimation (MLE):** Calculating the working memory capacity () from linguistic structures.
 * **Entropy Calculation:** Measuring the information transfer efficiency under different processing mechanisms (Linear vs. Hierarchical).
-* **Optimization Validation:** Demonstrating how language hierarchization minimizes cognitive load while maximizing information density.
+* **Optimization Validation:** Demonstrating how language hierarchization minimizes cognitive load while maximizing information density. -->
 
 <!-- ## 📜 Citation
 
