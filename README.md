@@ -1,81 +1,79 @@
 # Language Hierarchization and Human Working Memory Limits
 
-This repository contains the source code for the manuscript:
+This repository provides the computational framework and statistical analysis for the manuscript:
 
 **"Language Hierarchization Provides the Optimal Solution to Human Working Memory Limits"**
 
+---
+
+## 📢 Availability Notice
+
+**Data Availability:** To comply with institutional policies and protect pending research, the `data/` directories currently contain placeholder files. **Full datasets will be made publicly available upon the formal publication of the manuscript.** **Code Availability:** The core analytical scripts (`main.py`) are provided. However, they require the datasets to execute fully. Reviewers or researchers requesting early access for validation may contact the authors.
+
+---
+
 ## 📂 Repository Structure
 
-The repository is organized into three main modules, each corresponding to a specific corpus analyzed in the study. Each module contains its own data processing and analysis scripts.
+The repository is organized into three main modules, each corresponding to a specific corpus analyzed in the study:
 
 ```text
 Language-Hierarchization-WMC
-├── OpenNodes_Alice               # Multilingual analysis of "Alice's Adventures in Wonderland"
-│   ├── data/                     # Processed text data for 8 languages
-│   └── main.py                   # Main analysis script for Alice corpus
-├── OpenNodes_Child               # Analysis of the Child Spoken Language Corpus (Ages 3-8)
-│   ├── data/                     # Longitudinal spoken language data
-│   └── main.py                   # Main analysis script for developmental data
-└── OpenNodes_Natural_Language    # Analysis of the Classics Corpus (English)
-    ├── data/                     # Large-scale natural language dataset
-    └── main.py                   # Main analysis script for adult natural language
+├── OpenNodes_Alice               # Multilingual analysis (8 languages)
+│   ├── data/                     # [To be released upon publication]
+│   └── main.py                   # Script for cross-linguistic optimization analysis
+├── OpenNodes_Child               # Developmental trajectory analysis (Ages 3-8)
+│   ├── data/                     # [To be released upon publication]
+│   └── main.py                   # Script for developmental evolution analysis
+└── OpenNodes_Natural_Language    # Adult natural language validation
+    ├── data/                     # [To be released upon publication]
+    └── main.py                   # Script for large-scale corpus analysis
 
 ```
 
-## 📊 Datasets
+---
 
-1. **OpenNodes_Natural_Language (Classics Corpus):** A large-scale English corpus consisting of approximately 34,995 sentences, used to validate the hierarchization theory in adult natural language.
-2. **OpenNodes_Alice (Alice Corpus):** A multilingual dataset covering 8 languages (English, Chinese, French, German, Russian, Japanese, Italian, and Spanish) to test the cross-linguistic universality of the optimal solution.
-3. **OpenNodes_Child (Child Spoken Language):** Developmental data categorized by age (3-8 years old) to examine how the hierarchization strategy evolves alongside working memory capacity.
+## 📊 Dataset Descriptions
+
+1. **OpenNodes_Natural_Language (Classics Corpus):** A large-scale English corpus (~34,995 sentences) used to validate the hierarchization theory in stable adult language systems.
+2. **OpenNodes_Alice (Alice Corpus):** A parallel multilingual dataset covering 8 languages (English, Chinese, French, German, Russian, Japanese, Italian, and Spanish) to test the cross-linguistic universality of the proposed optimal solution.
+3. **OpenNodes_Child (Child Spoken Language):** Longitudinal developmental data categorized by age (3–8 years) to examine how hierarchization strategies emerge alongside growing working memory capacity.
+
+---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-* Python 3.8 or higher
-* Required packages: `numpy`, `pandas`, `scipy`, `matplotlib`, `stanza` (Installation: `pip install numpy pandas scipy matplotlib stanza`)
+* **Python:** 3.8 or higher
+* **Dependencies:** `numpy`, `pandas`, `scipy`, `matplotlib`, `stanza`
+* **Installation:**
+```bash
+pip install numpy pandas scipy matplotlib stanza
+
+```
+
+
 
 ### Running the Analysis
 
-Each module is self-contained. You can replicate the results presented in the paper by running the `main.py` script within each directory.
-
-For example, to analyze the Alice Corpus:
+Each module is self-contained. Once the datasets are released, you can replicate the results by running the `main.py` script within its respective directory.
 
 ```bash
+# Example: Running the Alice Corpus analysis
 cd OpenNodes_Alice
 python main.py
 
 ```
 
-To analyze the Child Spoken Language data:
-
-```bash
-cd OpenNodes_Child
-python main.py
-
-```
-
-<!-- ## ⚙️ Core Methodology
-
-The code implements:
-
-* **Maximum Likelihood Estimation (MLE):** Calculating the working memory capacity () from linguistic structures.
-* **Entropy Calculation:** Measuring the information transfer efficiency under different processing mechanisms (Linear vs. Hierarchical).
-* **Optimization Validation:** Demonstrating how language hierarchization minimizes cognitive load while maximizing information density. -->
-
-<!-- ## 📜 Citation
-
-If you use this code or data in your research, please cite:
-
-> *Chen, L., Gao, W., Wu, J., Wu, J., & Friederici, A. D. (2026). Language Hierarchization Provides the Optimal Solution to Human Working Memory Limits. Nature (under review).* -->
+---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](https://www.google.com/search?q=LICENSE) file for details.
+This project is licensed under the **MIT License** - see the [LICENSE](https://opensource.org/licenses/MIT) file for details.
 
 ## ✉️ Contact
 
-For questions regarding the code or data, please contact the corresponding authors:
+For questions regarding the methodology, code, or data access, please contact:
 
-* Prof. Dr. Luyao Chen (harry-luyao.chen@polyu.edu.hk)
-* Dr. Weibo Gao (weibogao@mail.ustc.edu.cn)
+* **Prof. Dr. Luyao Chen** (harry-luyao.chen@polyu.edu.hk)
+* **Dr. Weibo Gao** (weibogao@mail.ustc.edu.cn)
