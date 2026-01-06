@@ -1,6 +1,6 @@
 # Language Hierarchization and Human Working Memory Limits
 
-This repository contains the source code and datasets for the manuscript:
+This repository contains the source code for the manuscript:
 
 **"Language Hierarchization Provides the Optimal Solution to Human Working Memory Limits"**
 
