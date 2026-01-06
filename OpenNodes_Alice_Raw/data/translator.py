@@ -8,11 +8,11 @@ import time
 class DeepSeekTranslator:
     def __init__(self, api_key: str, base_url: str = "https://api.deepseek.com"):
         """
-        初始化DeepSeek翻译器
+        Initialize the DeepSeek translator.
         
         Args:
-            api_key: DeepSeek API密钥
-            base_url: API基础URL，默认为DeepSeek官方API
+            api_key: DeepSeek API key.
+            base_url: API base URL, defaults to official DeepSeek API.
         """
         self.api_key = api_key
         self.base_url = base_url
@@ -23,46 +23,46 @@ class DeepSeekTranslator:
     
     def read_file(self, file_path: str) -> str:
         """
-        读取本地文本文件
+        Read a local text file.
         
         Args:
-            file_path: 文件路径
+            file_path: Path to the file.
             
         Returns:
-            文件内容字符串
+            The content of the file as a string.
         """
         try:
             with open(file_path, 'r', encoding='utf-8') as file:
                 return file.read()
         except FileNotFoundError:
-            print(f"错误: 文件 '{file_path}' 未找到")
+            print(f"Error: File '{file_path}' not found")
             raise
         except Exception as e:
-            print(f"读取文件时发生错误: {e}")
+            print(f"Error occurred while reading the file: {e}")
             raise
     
     def split_into_chapters(self, text: str) -> List[Dict[str, str]]:
         """
-        将文本按照 CHAPTER I.、CHAPTER II. 等格式划分章节
+        Divide the text into chapters based on formats like CHAPTER I., CHAPTER II., etc.
         
         Args:
-            text: 完整文本内容
+            text: Full text content.
             
         Returns:
-            章节列表，每个章节包含标题和内容
+            A list of chapters, each containing a title and content.
         """
         chapters = []
         
-        # 优化章节分割模式：匹配 CHAPTER I.、CHAPTER II. 等格式
-        # 支持罗马数字 I, II, III, IV, V, VI, VII, VIII, IX, X 等
+        # Optimize chapter splitting pattern: match CHAPTER I., CHAPTER II., etc.
+        # Supports Roman numerals I, II, III, IV, V, VI, VII, VIII, IX, X, etc.
         chapter_pattern = r'(CHAPTER\s+[IVXLCDM]+\.)'
         
-        # 查找所有章节标题的位置
+        # Find positions of all chapter titles
         matches = list(re.finditer(chapter_pattern, text, re.IGNORECASE))
         
         if not matches:
-            print("未检测到 CHAPTER X. 格式的章节，尝试其他格式...")
-            # 尝试其他可能的格式
+            print("No CHAPTER X. format detected, trying alternative formats...")
+            # Try other possible formats
             alternative_patterns = [
                 r'(CHAPTER\s+\d+\.)',  # CHAPTER 1.
                 r'(Chapter\s+[IVXLCDM]+\.)',  # Chapter I.
@@ -72,27 +72,27 @@ class DeepSeekTranslator:
             for pattern in alternative_patterns:
                 matches = list(re.finditer(pattern, text, re.IGNORECASE))
                 if matches:
-                    print(f"检测到格式: {pattern}")
+                    print(f"Detected format: {pattern}")
                     break
         
         if not matches:
-            print("未检测到标准章节格式，将整个文本作为一章处理")
+            print("No standard chapter format detected, treating the entire text as one chapter.")
             return [{
                 'title': '完整文本',
                 'content': text.strip(),
                 'chapter_number': 1
             }]
         
-        print(f"检测到 {len(matches)} 个章节")
+        print(f"Detected {len(matches)} chapters")
         
-        # 根据章节标题分割文本
+        # Split text based on chapter titles
         for i, match in enumerate(matches):
             chapter_title = match.group().strip()
             
-            # 获取章节开始位置
+            # Get start position
             start_pos = match.start()
             
-            # 确定章节内容范围
+            # Determine content range
             if i < len(matches) - 1:
                 end_pos = matches[i + 1].start()
             else:
@@ -100,7 +100,7 @@ class DeepSeekTranslator:
             
             chapter_content = text[start_pos:end_pos].strip()
             
-            # 提取罗马数字
+            # Extract Roman numerals
             roman_num = re.search(r'[IVXLCDM]+', chapter_title, re.IGNORECASE)
             if roman_num:
                 chapter_number = self._roman_to_int(roman_num.group())
@@ -114,19 +114,19 @@ class DeepSeekTranslator:
                 'roman_num': roman_num.group() if roman_num else str(i + 1)
             })
             
-            print(f"  章节 {i + 1}: {chapter_title} (罗马数字: {roman_num.group() if roman_num else 'N/A'})")
+            print(f"  Chapter {i + 1}: {chapter_title} (Roman Numeral: {roman_num.group() if roman_num else 'N/A'})")
         
         return chapters
     
     def _roman_to_int(self, roman: str) -> int:
         """
-        罗马数字转换为整数
+        Convert Roman numerals to integers.
         
         Args:
-            roman: 罗马数字字符串
+            roman: Roman numeral string.
             
         Returns:
-            对应的整数值
+            The corresponding integer value.
         """
         roman_dict = {
             'I': 1, 'V': 5, 'X': 10, 'L': 50,
@@ -149,16 +149,16 @@ class DeepSeekTranslator:
     
     def translate_text(self, text: str, target_language: str) -> str:
         """
-        调用DeepSeek API翻译文本
+        Call DeepSeek API to translate text.
         
         Args:
-            text: 要翻译的文本
-            target_language: 目标语言（如：中文、法语、西班牙语等）
+            text: Text to be translated.
+            target_language: Target language (e.g., Chinese, French, Spanish, etc.).
             
         Returns:
-            翻译后的文本
+            The translated text.
         """
-        # 构建API请求
+        # Construct API request
         url = f"{self.base_url}/chat/completions"
         
         prompt = f"""请将以下英文文本翻译成{target_language}。
@@ -167,7 +167,7 @@ class DeepSeekTranslator:
 1. 保持原文的格式、段落、章节标题和标点符号
 2. 人名、地名等专有名词保持原样，首次出现时可在括号内注明音译
 3. 确保翻译准确自然，符合{target_language}的表达习惯
-4. 不要添加任何额外的解释、说明或注释
+4. 不要添加任何额外的解释、说明 or 注释
 5. 保持CHAPTER标题格式不变，只翻译内容
 
 英文文本：
@@ -183,7 +183,7 @@ class DeepSeekTranslator:
                     "content": prompt
                 }
             ],
-            "temperature": 0.2,  # 降低温度以获得更稳定的翻译
+            "temperature": 0.2,  # Lower temperature for more stable translations
             "max_tokens": 4000,
             "stream": False
         }
@@ -195,9 +195,9 @@ class DeepSeekTranslator:
             result = response.json()
             translated_text = result['choices'][0]['message']['content'].strip()
             
-            # 确保翻译以CHAPTER标题开始
+            # Ensure translation starts with the CHAPTER title
             if not translated_text.startswith("CHAPTER"):
-                # 查找CHAPTER标题
+                # Search for CHAPTER title
                 chapter_match = re.search(r'(CHAPTER\s+[IVXLCDM]+\.)', text)
                 if chapter_match:
                     chapter_title = chapter_match.group()
@@ -207,65 +207,65 @@ class DeepSeekTranslator:
             return translated_text
             
         except requests.exceptions.RequestException as e:
-            print(f"API调用失败: {e}")
+            print(f"API call failed: {e}")
             if hasattr(e, 'response') and e.response:
-                print(f"响应状态码: {e.response.status_code}")
+                print(f"Response status code: {e.response.status_code}")
                 try:
                     error_detail = e.response.json()
-                    print(f"错误详情: {error_detail}")
+                    print(f"Error details: {error_detail}")
                 except:
-                    print(f"响应内容: {e.response.text[:200]}")
+                    print(f"Response content: {e.response.text[:200]}")
             raise
         except KeyError as e:
-            print(f"解析API响应时出错: {e}")
-            print(f"API响应: {result}")
+            print(f"Error parsing API response: {e}")
+            print(f"API Response: {result}")
             raise
         except Exception as e:
-            print(f"翻译过程中发生错误: {e}")
+            print(f"Error occurred during translation: {e}")
             raise
     
     def translate_chapter(self, chapter: Dict, target_language: str, 
                          max_chunk_length: int = 2500) -> Dict:
         """
-        翻译单个章节，处理长文本分块
+        Translate a single chapter, handling long text chunking.
         
         Args:
-            chapter: 章节字典
-            target_language: 目标语言
-            max_chunk_length: 每个翻译块的最大长度
+            chapter: Chapter dictionary.
+            target_language: Target language.
+            max_chunk_length: Maximum length for each translation chunk.
             
         Returns:
-            包含翻译后内容的章节字典
+            Chapter dictionary containing translated content.
         """
-        print(f"\n正在翻译: {chapter['title']} ({len(chapter['content'])} 字符)")
+        print(f"\nTranslating: {chapter['title']} ({len(chapter['content'])} characters)")
         
         content = chapter['content']
         
-        # 如果内容过长，分块翻译
+        # If content is too long, translate in chunks
         if len(content) > max_chunk_length:
-            print(f"  章节内容较长，将分块翻译...")
+            print(f"  Chapter content is long, translating in chunks...")
             chunks = self._split_into_chunks(content, max_chunk_length)
             translated_chunks = []
             
             for i, chunk in enumerate(chunks):
-                print(f"  翻译块 {i + 1}/{len(chunks)}...")
+                print(f"  Translating chunk {i + 1}/{len(chunks)}...")
                 try:
-                    # 添加延迟避免API限制
+                    # Add delay to avoid API limits
                     if i > 0:
                         time.sleep(1)
                     
                     translated_chunk = self.translate_text(chunk, target_language)
                     translated_chunks.append(translated_chunk)
                 except Exception as e:
-                    print(f"  翻译块 {i + 1} 失败: {e}")
-                    # 如果翻译失败，保留原文并标记
-                    translated_chunks.append(f"[翻译失败部分，保留原文]\n{chunk}")
+                    print(f"  Chunk {i + 1} failed: {e}")
+                    # If translation fails, keep original and mark it
+                    translated_chunks.append(f"[Translation failed, original kept]\n{chunk}")
                 
             translated_content = '\n\n'.join(translated_chunks)
         else:
             translated_content = self.translate_text(content, target_language)
         
-        # 提取翻译后的标题
+        # Extract the translated title
         translated_title = self._extract_translated_title(translated_content, chapter['title'])
         
         return {
@@ -279,16 +279,16 @@ class DeepSeekTranslator:
     
     def _extract_translated_title(self, translated_content: str, original_title: str) -> str:
         """
-        从翻译内容中提取章节标题
+        Extract the chapter title from the translated content.
         
         Args:
-            translated_content: 翻译后的内容
-            original_title: 原始标题
+            translated_content: Translated content.
+            original_title: Original title.
             
         Returns:
-            提取的标题
+            Extracted title.
         """
-        # 尝试从翻译内容中提取CHAPTER标题
+        # Try to extract CHAPTER title from translated content
         title_patterns = [
             r'(CHAPTER\s+[IVXLCDM]+\.)',
             r'(第\s*[一二三四五六七八九十]+\s*章)',
@@ -301,23 +301,23 @@ class DeepSeekTranslator:
             if match:
                 return match.group()
         
-        # 如果没有找到，返回原始标题
+        # If not found, return original title
         return original_title
     
     def _split_into_chunks(self, text: str, max_length: int) -> List[str]:
         """
-        将文本分割成适合翻译的块，保持段落完整
+        Split text into chunks suitable for translation, keeping paragraphs intact.
         
         Args:
-            text: 原始文本
-            max_length: 每个块的最大长度
+            text: Original text.
+            max_length: Maximum length for each chunk.
             
         Returns:
-            文本块列表
+            List of text chunks.
         """
         chunks = []
         
-        # 按段落分割
+        # Split by paragraphs
         paragraphs = re.split(r'(\n\s*\n)', text)
         
         current_chunk = ""
@@ -325,15 +325,15 @@ class DeepSeekTranslator:
             paragraph = paragraphs[i]
             separator = paragraphs[i + 1] if i + 1 < len(paragraphs) else ""
             
-            # 如果当前段落加上分隔符的长度不超过限制
+            # If current chunk plus paragraph doesn't exceed limit
             if len(current_chunk) + len(paragraph) + len(separator) <= max_length:
                 current_chunk += paragraph + separator
             else:
-                # 保存当前块
+                # Save current chunk
                 if current_chunk:
                     chunks.append(current_chunk.strip())
                 
-                # 如果单个段落就超过最大长度，按句子分割
+                # If a single paragraph exceeds max length, split by sentences
                 if len(paragraph) > max_length:
                     sentences = re.split(r'(?<=[.!?])\s+', paragraph)
                     temp_chunk = ""
@@ -353,7 +353,7 @@ class DeepSeekTranslator:
                 else:
                     current_chunk = paragraph + separator
         
-        # 添加最后一个块
+        # Add the last chunk
         if current_chunk.strip():
             chunks.append(current_chunk.strip())
         
@@ -363,22 +363,22 @@ class DeepSeekTranslator:
                         output_dir: str, target_language: str, 
                         save_format: str = 'both'):
         """
-        保存翻译结果
+        Save translation results.
         
         Args:
-            translated_chapters: 翻译后的章节列表
-            output_dir: 输出目录
-            target_language: 目标语言
-            save_format: 保存格式 ('txt', 'json', 或 'both')
+            translated_chapters: List of translated chapters.
+            output_dir: Output directory.
+            target_language: Target language.
+            save_format: Save format ('txt', 'json', or 'both').
         """
-        # 创建输出目录
+        # Create output directory
         os.makedirs(output_dir, exist_ok=True)
         
-        # 生成文件名
+        # Generate filename
         safe_lang = re.sub(r'[^\w\s-]', '', target_language).replace(' ', '_').lower()
         base_filename = f"alice_{safe_lang}"
         
-        # 保存完整翻译文件
+        # Save complete translation file
         if save_format in ['txt', 'both']:
             txt_path = os.path.join(output_dir, f"{base_filename}_complete.txt")
             with open(txt_path, 'w', encoding='utf-8') as f:
@@ -388,64 +388,64 @@ class DeepSeekTranslator:
                     f.write(chapter['translated_content'])
                     f.write("\n\n" + "=" * 80 + "\n\n")
             
-            print(f"\n完整翻译已保存为TXT文件: {txt_path}")
+            print(f"\nComplete translation saved as TXT: {txt_path}")
         
-        # 保存JSON格式（包含原文和译文）
+        # Save JSON format (contains source and translation)
         if save_format in ['json', 'both']:
             json_path = os.path.join(output_dir, f"{base_filename}_bilingual.json")
             with open(json_path, 'w', encoding='utf-8') as f:
                 json.dump(translated_chapters, f, ensure_ascii=False, indent=2)
             
-            print(f"双语对照已保存为JSON文件: {json_path}")
+            print(f"Bilingual version saved as JSON: {json_path}")
         
-        # 保存纯译文文件（无额外分隔符）
+        # Save clean translated file (no extra separators)
         txt_clean_path = os.path.join(output_dir, f"{base_filename}_clean.txt")
         with open(txt_clean_path, 'w', encoding='utf-8') as f:
             for chapter in translated_chapters:
                 f.write(chapter['translated_content'])
                 f.write("\n\n")
         
-        print(f"纯净译文已保存为: {txt_clean_path}")
+        print(f"Clean translation saved as: {txt_clean_path}")
         
-        # 同时保存单个章节文件
+        # Save individual chapter files
         chapters_dir = os.path.join(output_dir, "individual_chapters")
         os.makedirs(chapters_dir, exist_ok=True)
         
-        print(f"\n正在保存单个章节文件...")
+        print(f"\nSaving individual chapter files...")
         for chapter in translated_chapters:
             chapter_num = chapter['chapter_number']
             roman_num = chapter.get('roman_num', str(chapter_num))
             
-            # 保存译文
+            # Save translation
             translated_filename = f"chapter_{roman_num}_{safe_lang}.txt"
             translated_path = os.path.join(chapters_dir, translated_filename)
             
             with open(translated_path, 'w', encoding='utf-8') as f:
                 f.write(chapter['translated_content'])
             
-            # 保存双语对照
+            # Save bilingual version
             bilingual_filename = f"chapter_{roman_num}_bilingual.txt"
             bilingual_path = os.path.join(chapters_dir, bilingual_filename)
             
             with open(bilingual_path, 'w', encoding='utf-8') as f:
-                f.write("=" * 40 + " 英文原文 " + "=" * 40 + "\n")
+                f.write("=" * 40 + " Original English " + "=" * 40 + "\n")
                 f.write(chapter['original_content'])
-                f.write("\n\n" + "=" * 40 + f" {target_language}译文 " + "=" * 40 + "\n")
+                f.write("\n\n" + "=" * 40 + f" {target_language} Translation " + "=" * 40 + "\n")
                 f.write(chapter['translated_content'])
         
-        print(f"单个章节文件已保存至: {chapters_dir}")
+        print(f"Individual chapter files saved to: {chapters_dir}")
         
-        # 生成摘要报告
+        # Generate summary report
         self._generate_summary(translated_chapters, output_dir, target_language)
     
     def _generate_summary(self, chapters: List[Dict], output_dir: str, target_language: str):
         """
-        生成翻译摘要报告
+        Generate translation summary report.
         
         Args:
-            chapters: 章节列表
-            output_dir: 输出目录
-            target_language: 目标语言
+            chapters: List of chapters.
+            output_dir: Output directory.
+            target_language: Target language.
         """
         report_path = os.path.join(output_dir, "translation_summary.txt")
         
@@ -454,17 +454,17 @@ class DeepSeekTranslator:
         
         with open(report_path, 'w', encoding='utf-8') as f:
             f.write("=" * 60 + "\n")
-            f.write(f"《爱丽丝梦游仙境》{target_language}翻译报告\n")
+            f.write(f"Alice in Wonderland {target_language} Translation Report\n")
             f.write("=" * 60 + "\n\n")
             
-            f.write(f"翻译基本信息：\n")
-            f.write(f"- 目标语言: {target_language}\n")
-            f.write(f"- 章节数量: {len(chapters)}\n")
-            f.write(f"- 原文总字符数: {total_original_chars:,}\n")
-            f.write(f"- 译文总字符数: {total_translated_chars:,}\n")
-            f.write(f"- 翻译比率: {total_translated_chars/total_original_chars:.2f}\n\n")
+            f.write(f"Translation Info:\n")
+            f.write(f"- Target Language: {target_language}\n")
+            f.write(f"- Chapter Count: {len(chapters)}\n")
+            f.write(f"- Original Character Count: {total_original_chars:,}\n")
+            f.write(f"- Translated Character Count: {total_translated_chars:,}\n")
+            f.write(f"- Translation Ratio: {total_translated_chars/total_original_chars:.2f}\n\n")
             
-            f.write("章节详情：\n")
+            f.write("Chapter Details:\n")
             f.write("-" * 60 + "\n")
             
             for chapter in chapters:
@@ -472,45 +472,45 @@ class DeepSeekTranslator:
                 trans_len = len(chapter['translated_content'])
                 ratio = trans_len / orig_len if orig_len > 0 else 0
                 
-                f.write(f"第{chapter['chapter_number']}章 ({chapter.get('roman_num', 'N/A')})\n")
-                f.write(f"  标题: {chapter['original_title']} → {chapter['translated_title']}\n")
-                f.write(f"  原文长度: {orig_len:,} 字符\n")
-                f.write(f"  译文长度: {trans_len:,} 字符\n")
-                f.write(f"  长度比率: {ratio:.2f}\n")
+                f.write(f"Chapter {chapter['chapter_number']} ({chapter.get('roman_num', 'N/A')})\n")
+                f.write(f"  Title: {chapter['original_title']} → {chapter['translated_title']}\n")
+                f.write(f"  Source Length: {orig_len:,} chars\n")
+                f.write(f"  Translation Length: {trans_len:,} chars\n")
+                f.write(f"  Length Ratio: {ratio:.2f}\n")
                 f.write("-" * 40 + "\n")
             
-            f.write(f"\n报告生成时间: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
+            f.write(f"\nReport Generated at: {time.strftime('%Y-%m-%d %H:%M:%S')}\n")
         
-        print(f"翻译摘要报告已生成: {report_path}")
+        print(f"Translation summary report generated: {report_path}")
 
 def main():
-    """主函数"""
-    # 配置参数
-    API_KEY = "sk-6fc1143a5b8c4859a8c659c0589eca9f"  # 替换为你的API密钥
-    INPUT_FILE = "alice_english.txt"  # 输入文件路径
+    """Main function."""
+    # Configuration parameters
+    API_KEY = ""  # Replace with your API key
+    INPUT_FILE = "alice_english.txt"  # Input file path
     lanList = ['Chinese', 'French', 'German', 'Russian', 'Japanese', 'Spanish', 'Italian']
-    TARGET_LANGUAGE = lanList[6] # 目标语言: 0, 1, 2, 3, 4, 5, 6
-    OUTPUT_DIR = "alice_translation"  # 输出目录
+    TARGET_LANGUAGE = lanList[6] # Target language index: 0, 1, 2, 3, 4, 5, 6
+    OUTPUT_DIR = "alice_translation"  # Output directory
     
-    print("《爱丽丝梦游仙境》章节翻译工具")
+    print("Alice in Wonderland Chapter Translation Tool")
     print("=" * 50)
     
-    # 初始化翻译器
+    # Initialize translator
     translator = DeepSeekTranslator(api_key=API_KEY)
     
     try:
-        # 1. 读取文件
-        print("步骤1: 正在读取文件...")
+        # 1. Read file
+        print("Step 1: Reading file...")
         text_content = translator.read_file(INPUT_FILE)
-        print(f"✓ 文件读取完成，总字符数: {len(text_content):,}")
+        print(f"✓ File reading completed, total characters: {len(text_content):,}")
         
-        # 2. 划分章节
-        print("\n步骤2: 正在分析章节结构...")
+        # 2. Split chapters
+        print("\nStep 2: Analyzing chapter structure...")
         chapters = translator.split_into_chapters(text_content)
-        print(f"✓ 共识别到 {len(chapters)} 个章节")
+        print(f"✓ Total of {len(chapters)} chapters identified.")
         
-        # 3. 翻译每个章节
-        print(f"\n步骤3: 开始翻译为 {TARGET_LANGUAGE}...")
+        # 3. Translate each chapter
+        print(f"\nStep 3: Starting translation to {TARGET_LANGUAGE}...")
         print("=" * 50)
         
         translated_chapters = []
@@ -523,30 +523,30 @@ def main():
                     TARGET_LANGUAGE
                 )
                 translated_chapters.append(translated_chapter)
-                print(f"✓ 完成: {chapter['title']}")
+                print(f"✓ Done: {chapter['title']}")
                 
-                # 添加章节间延迟
+                # Add delay between chapters
                 if i < len(chapters) - 1:
-                    time.sleep(2)  # 避免API频率限制
+                    time.sleep(2)  # Avoid API rate limiting
                     
             except Exception as e:
-                print(f"\n✗ 章节翻译失败: {chapter['title']}")
-                print(f"   错误信息: {e}")
-                print("   将跳过此章节继续处理...")
+                print(f"\n✗ Chapter translation failed: {chapter['title']}")
+                print(f"   Error: {e}")
+                print("   Skipping this chapter and continuing...")
                 
-                # 添加错误章节占位符
+                # Add placeholder for failed chapter
                 translated_chapters.append({
                     'original_title': chapter['title'],
-                    'translated_title': chapter['title'] + " [翻译失败]",
+                    'translated_title': chapter['title'] + " [Translation Failed]",
                     'original_content': chapter['content'],
-                    'translated_content': f"【翻译失败】\n\n{chapter['content']}",
+                    'translated_content': f"【Translation Failed】\n\n{chapter['content']}",
                     'chapter_number': chapter['chapter_number'],
                     'roman_num': chapter.get('roman_num', str(chapter['chapter_number']))
                 })
         
-        # 4. 保存结果
+        # 4. Save results
         print("\n" + "=" * 50)
-        print("步骤4: 正在保存翻译结果...")
+        print("Step 4: Saving translation results...")
         translator.save_translation(
             translated_chapters,
             OUTPUT_DIR,
@@ -555,56 +555,56 @@ def main():
         )
         
         print("\n" + "=" * 50)
-        print("🎉 翻译任务完成！")
-        print(f"所有文件已保存至: {os.path.abspath(OUTPUT_DIR)}")
+        print("🎉 Translation task completed!")
+        print(f"All files saved to: {os.path.abspath(OUTPUT_DIR)}")
         
     except Exception as e:
-        print(f"\n❌ 程序执行失败: {e}")
+        print(f"\n❌ Execution failed: {e}")
         import traceback
         traceback.print_exc()
 
 def quick_translate():
-    """快速翻译函数（简化版）"""
-    API_KEY = input("请输入DeepSeek API密钥: ").strip()
-    TARGET_LANGUAGE = input("请输入目标语言（如：中文、日语、法语）: ").strip()
+    """Quick translate function (simplified version)."""
+    API_KEY = input("Enter DeepSeek API Key: ").strip()
+    TARGET_LANGUAGE = input("Enter target language (e.g., Chinese, Japanese, French): ").strip()
     INPUT_FILE = "alice_english.txt"
     
     if not os.path.exists(INPUT_FILE):
-        print(f"错误: 文件 {INPUT_FILE} 不存在！")
+        print(f"Error: File {INPUT_FILE} does not exist!")
         return
     
     translator = DeepSeekTranslator(api_key=API_KEY)
     
-    # 读取并分割章节
+    # Read and split chapters
     text = translator.read_file(INPUT_FILE)
     chapters = translator.split_into_chapters(text)
     
-    print(f"\n开始翻译 {len(chapters)} 个章节...")
+    print(f"\nStarting translation for {len(chapters)} chapters...")
     
-    # 只翻译前3章作为示例
+    # Translate only first 3 chapters as sample
     sample_chapters = chapters[:3]
     translated = []
     
     for chapter in sample_chapters:
-        print(f"翻译: {chapter['title']}")
+        print(f"Translating: {chapter['title']}")
         try:
             result = translator.translate_chapter(chapter, TARGET_LANGUAGE)
             translated.append(result)
         except Exception as e:
-            print(f"  失败: {e}")
+            print(f"  Failed: {e}")
     
-    # 保存示例
+    # Save sample
     output_dir = "sample_translation"
     translator.save_translation(translated, output_dir, TARGET_LANGUAGE, save_format='txt')
     
-    print(f"\n示例翻译已保存到: {output_dir}")
+    print(f"\nSample translation saved to: {output_dir}")
 
 if __name__ == "__main__":
-    print("请选择模式:")
-    print("1. 完整翻译（所有章节）")
-    print("2. 快速测试（仅翻译前3章）")
+    print("Please select mode:")
+    print("1. Full Translation (All chapters)")
+    print("2. Quick Test (First 3 chapters only)")
     
-    choice = input("请输入选择 (1 或 2): ").strip()
+    choice = input("Enter choice (1 or 2): ").strip()
     
     if choice == "2":
         quick_translate()
