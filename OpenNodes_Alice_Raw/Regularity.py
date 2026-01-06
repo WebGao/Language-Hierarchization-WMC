@@ -9,16 +9,16 @@ import hashlib
 import stanza
 from scipy.optimize import curve_fit
 
-# -------------------------- 1. 基础配置 --------------------------
+# -------------------------- 1. Basic Configuration --------------------------
 LANGUAGES = [
-    {"code": "zh-hans", "name": "Chinese", "file": "alice_data/alice_chinese.txt", "splitter": r"[。！？；：\n\r]", "color": "#E64B35"},
-    {"code": "en", "name": "English", "file": "alice_data/alice_english.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#4878CF"},
-    {"code": "fr", "name": "French", "file": "alice_data/alice_french.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#13A188"},
-    {"code": "de", "name": "German", "file": "alice_data/alice_german.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#F7DC6F"},
-    {"code": "ru", "name": "Russian", "file": "alice_data/alice_russian.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#9370DB"},
-    {"code": "ja", "name": "Japanese", "file": "alice_data/alice_japanese.txt", "splitter": r"[。！？；：\n\r]", "color": "#2E8B57"},
-    {"code": "es", "name": "Spanish", "file": "alice_data/alice_spanish.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#FF8C00"},
-    {"code": "it", "name": "Italian", "file": "alice_data/alice_italian.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#8B4513"}
+    {"code": "zh-hans", "name": "Chinese", "file": "data/alice_chinese.txt", "splitter": r"[。！？；：\n\r]", "color": "#E64B35"},
+    {"code": "en", "name": "English", "file": "data/alice_english.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#4878CF"},
+    {"code": "fr", "name": "French", "file": "data/alice_french.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#13A188"},
+    {"code": "de", "name": "German", "file": "data/alice_german.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#F7DC6F"},
+    {"code": "ru", "name": "Russian", "file": "data/alice_russian.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#9370DB"},
+    {"code": "ja", "name": "Japanese", "file": "data/alice_japanese.txt", "splitter": r"[。！？；：\n\r]", "color": "#2E8B57"},
+    {"code": "es", "name": "Spanish", "file": "data/alice_spanish.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#FF8C00"},
+    {"code": "it", "name": "Italian", "file": "data/alice_italian.txt", "splitter": r"(?<=[.!?;:])\s+|\n\r", "color": "#8B4513"}
 ]
 
 mpl.rcParams.update({
@@ -32,7 +32,7 @@ STRUCTURE_CACHE_DIR = './structure_cache_'
 WMC_MIN, WMC_MAX = 4, 9
 os.makedirs(FIGURE_OUTPUT_DIR, exist_ok=True)
 
-# -------------------------- 2. 核心计算函数 --------------------------
+# -------------------------- 2. Core Computational Functions --------------------------
 
 def calculate_open_nodes_theta(nested_sentence, count_start=1):
     word_units = {}
@@ -55,13 +55,13 @@ def calculate_open_nodes_theta(nested_sentence, count_start=1):
 def simulate_branch_merge(n): return list(range(n, 0, -1))
 def simulate_flat_merge(n): return [n] * n
 
-# -------------------------- 3. 绘图函数 (Nature Style) --------------------------
+# -------------------------- 3. Plotting Functions (Nature Style) --------------------------
 
 def plot_single_language(name, code, color, models_data):
-    # 设置 Nature 风格比例，紧凑型画布
+    # Set Nature-style proportions for a compact layout
     fig, ax = plt.subplots(figsize=(4.5, 4), dpi=300)
     
-    # 绘制人类工作记忆容量（WMC）区间，使用中性浅灰色
+    # Plot Human Working Memory Capacity (WMC) range using neutral light gray
     ax.axhspan(WMC_MIN, WMC_MAX, color='#E6E6E6', alpha=0.4, label='Human WMC', zorder=0)
     
     configs = {
@@ -74,11 +74,11 @@ def plot_single_language(name, code, color, models_data):
         x, y = np.array(data['x']), np.array(data['y'])
         if len(x) < 5: continue
         
-        # 散点：减小尺寸，增加透明度以应对数据重叠
+        # Scatter: Small size and low alpha to handle data overlap
         ax.scatter(x, y, s=3, alpha=0.05, color=m_cfg['color'], edgecolors='none', zorder=2)
         
         try:
-            # 曲线拟合
+            # Curve fitting
             xf = np.linspace(min(x), 65, 100)
             if m_name == 'Hierarchical':
                 popt, _ = curve_fit(lambda t,a,b: a*np.log(t)+b, x, y)
@@ -90,12 +90,12 @@ def plot_single_language(name, code, color, models_data):
             ax.plot(xf, yf, color=m_cfg['color'], ls=m_cfg['ls'], lw=1.5, label=m_cfg['label'], zorder=3)
         except: pass
 
-    # 细节微调
+    # Refine visual details
     ax.set_title(f'{name}', fontsize=12, fontweight='bold', loc='left')
     ax.set_xlabel('Sentence Length ($L$)', fontsize=10)
     ax.set_ylabel(r'Cognitive Load ($\theta$)', fontsize=10)
     
-    # 移除顶部和右侧边框
+    # Remove top and right spines
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
@@ -103,28 +103,28 @@ def plot_single_language(name, code, color, models_data):
     ax.set_ylim(0, 30)
     ax.legend(frameon=False, fontsize=8, loc='upper left')
     
-    # 极简留白处理
+    # Minimalist padding
     plt.tight_layout(pad=0.5)
     plt.savefig(os.path.join(FIGURE_OUTPUT_DIR, f"analysis_{code}.pdf"), bbox_inches='tight')
     plt.savefig(os.path.join(FIGURE_OUTPUT_DIR, f"analysis_{code}.png"), bbox_inches='tight')
     plt.close()
 
 def plot_combined_24_lines_with_points(all_lang_data):
-    # 仿 Nature 大图，双栏宽度
+    # Nature-style large figure for double-column width
     fig, ax = plt.subplots(figsize=(10, 7), dpi=300)
     
-    # 绘制人类工作记忆容量（WMC）区间
+    # Plot Human Working Memory Capacity (WMC) range
     ax.axhspan(WMC_MIN, WMC_MAX, color='#E6E6E6', alpha=0.4, zorder=0, label='Human WMC')
     
     xf = np.linspace(2, 50, 100) 
     model_curves = {'Hierarchical': [], 'Branching': []}
     
-    # 1. 绘制每个语言的点和拟合线
+    # 1. Plot individual dots and fit lines for each language
     for lang in all_lang_data:
         name = lang['name']
         lang_color = lang['color']
         
-        # 用于控制 Legend 只对每个语言显示一次
+        # Flag to control legend display
         label_added = False 
         
         for m_name, fit_type in [('Hierarchical', 'log'), ('Branching', 'linear')]:
@@ -132,8 +132,8 @@ def plot_combined_24_lines_with_points(all_lang_data):
             x, y = np.array(data['x']), np.array(data['y'])
             if len(x) < 5: continue
             
-            # --- 绘制原始点 (参考 plot_single_language) ---
-            # s=1, alpha=0.05 以应对 24 种语言叠加的巨大数据量
+            # --- Plot raw data points ---
+            # s=20, alpha=0.05 to handle high density from overlapping languages
             ax.scatter(x, y, s=20, alpha=0.05, color=lang_color, edgecolors='none', zorder=1)
             
             try:
@@ -144,17 +144,17 @@ def plot_combined_24_lines_with_points(all_lang_data):
                 else:
                     popt, _ = curve_fit(lambda t,a,b: a*t+b, x, y)
                     yf = popt[0]*xf + popt[1]
-                    ls = ':' # Branching 线型设为点状以示区别
+                    ls = ':' # Dot style for Branching model to differentiate
                 
                 model_curves[m_name].append(yf)
                 
-                # 设置 Legend
+                # Legend settings
                 current_label = name if not label_added else None
                 ax.plot(xf, yf, color=lang_color, ls=ls, lw=1.0, alpha=0.4, label=current_label, zorder=2)
                 label_added = True
             except: pass
 
-    # 2. 绘制全局平均粗线 (使用高对比度学术配色)
+    # 2. Plot global mean bold lines using high-contrast academic palette
     mean_cfg = {
         'Hierarchical': {'color': '#0072B2', 'ls': '-', 'label': 'MEAN: Hierarchical'},
         'Branching':    {'color': '#D55E00', 'ls': '--', 'label': 'MEAN: Branching'}
@@ -170,7 +170,7 @@ def plot_combined_24_lines_with_points(all_lang_data):
                 color=mean_cfg['Branching']['color'], ls=mean_cfg['Branching']['ls'], 
                 lw=3.0, label=mean_cfg['Branching']['label'], zorder=10)
                 
-    # 细节美化
+    # Visual aesthetics
     ax.set_title('Cross-linguistic Complexity Profile (Global Analysis)', fontsize=14, fontweight='bold', loc='left')
     ax.set_xlabel('Sentence Length ($L$)', fontsize=11)
     ax.set_ylabel(r'Processing Load ($\theta$)', fontsize=11)
@@ -178,36 +178,36 @@ def plot_combined_24_lines_with_points(all_lang_data):
     ax.spines['top'].set_visible(False)
     ax.spines['right'].set_visible(False)
     
-    # 坐标范围固定在需求区间
+    # Coordinate range fixed to requested interval
     ax.set_xlim(2, 50)
     ax.set_ylim(0, 30)
     
-    # 图例配置：放在右侧
+    # Legend configuration: outside right
     ax.legend(frameon=False, loc='upper left', bbox_to_anchor=(1.02, 1), fontsize=8, ncol=1)
     
     plt.tight_layout()
     plt.savefig(os.path.join(FIGURE_OUTPUT_DIR, "analysis_combined_nature.pdf"), bbox_inches='tight')
     plt.savefig(os.path.join(FIGURE_OUTPUT_DIR, "analysis_combined_nature.png"), bbox_inches='tight')
     plt.close()
-# -------------------------- 4. 主程序逻辑 --------------------------
+# -------------------------- 4. Main Execution Logic --------------------------
 
 if __name__ == "__main__":
     combined_results_for_plot = []
     summary_stats = []
     
-    # 定义分词专用缓存目录
+    # Define dedicated cache directory for tokenization
     TOKEN_CACHE_DIR = './token_cache'
     os.makedirs(TOKEN_CACHE_DIR, exist_ok=True)
     
-    print(f"{'='*20} 跨语言认知负荷分析启动 {'='*20}")
+    print(f"{'='*20} Starting Cross-linguistic Cognitive Load Analysis {'='*20}")
     
     for lang_info in LANGUAGES:
         code, name = lang_info['code'], lang_info['name']
         if not os.path.exists(lang_info['file']):
-            print(f"警告: 未找到 {name} 的语料文件: {lang_info['file']}")
+            print(f"Warning: Corpus file not found for {name}: {lang_info['file']}")
             continue
             
-        print(f"\n>>> 正在处理语言: {name} ({code})") 
+        print(f"\n>>> Processing Language: {name} ({code})") 
         
         content = None
         for enc in ['utf-8', 'gbk', 'utf-8-sig', 'latin-1']:
@@ -218,20 +218,20 @@ if __name__ == "__main__":
             except: continue
         if content is None: continue
 
-        # 初始化 Stanza 管道
+        # Initialize Stanza Pipeline
         nlp = stanza.Pipeline(lang=code, processors='tokenize,pos,lemma,depparse', 
                               dir=STANZA_MODEL_DIR, logging_level='ERROR')
 
         raw_sents = re.split(lang_info['splitter'], content)
         temp_data = []
         
-        print(f"    [阶段 1/3] 预分词与初步筛选...")
+        print(f"    [Phase 1/3] Pre-tokenization and initial filtering...")
         for s in raw_sents:
             s = s.replace('\u3000', ' ').strip()
             if not s: continue
             
             if code in ["zh-hans", "ja"]:
-                # --- 新增分词缓存逻辑 ---
+                # --- Tokenization Cache Logic ---
                 s_hash = hashlib.sha256(s.encode('utf-8')).hexdigest()
                 t_cache_path = os.path.join(TOKEN_CACHE_DIR, f"{code}_{s_hash}.json")
                 
@@ -262,16 +262,16 @@ if __name__ == "__main__":
         iqr = q3 - q1
         lower, upper = max(3, q1 - 1.5*iqr), q3 + 1.5*iqr
         
-        print(f"    [统计信息] 句子长度分布:")
-        print(f"        样本总数: {len(lens)}")
-        print(f"        均值 (Mean): {mean_len:.2f}, 标准差 (Std): {std_len:.2f}") 
+        print(f"    [Statistics] Sentence Length Distribution:")
+        print(f"        Total Samples: {len(lens)}")
+        print(f"        Mean: {mean_len:.2f}, Std: {std_len:.2f}") 
         print(f"        Q1 (25%): {q1:.2f}, Q3 (75%): {q3:.2f}, IQR: {iqr:.2f}")
-        print(f"        异常值过滤下界 (Lower Bound): {lower:.2f}")
-        print(f"        异常值过滤上界 (Upper Bound): {upper:.2f}")
+        print(f"        Outlier Filter Lower Bound: {lower:.2f}")
+        print(f"        Outlier Filter Upper Bound: {upper:.2f}")
         
         filtered_entries = [d for d in temp_data if lower <= d['len'] <= upper]
         total_to_process = len(filtered_entries)
-        print(f"    [阶段 2/3] 过滤后待处理句子总数: {total_to_process}")
+        print(f"    [Phase 2/3] Sentences remaining after filtering: {total_to_process}")
 
         current_lang_models = {
             'Hierarchical': {'x':[],'y':[]}, 
@@ -283,11 +283,11 @@ if __name__ == "__main__":
         STRUCTURE_CACHE_DIR_LANG = f"./structure_cache_{code}"
         os.makedirs(STRUCTURE_CACHE_DIR_LANG, exist_ok=True)
 
-        print(f"    [阶段 3/3] 依存分析与复杂度计算:")
+        print(f"    [Phase 3/3] Dependency parsing and complexity calculation:")
         for idx, entry in enumerate(filtered_entries):
-            # 每 5 句或最后一句更新进度
+            # Update progress every 5 sentences or at the end
             if (idx + 1) % 5 == 0 or (idx + 1) == total_to_process:
-                print(f"\r        处理进度: {idx+1}/{total_to_process} ({(idx+1)/total_to_process:.1%})", end="", flush=True)
+                print(f"\r        Progress: {idx+1}/{total_to_process} ({(idx+1)/total_to_process:.1%})", end="", flush=True)
             
             txt = entry['text']
             ckey = hashlib.sha256(f"{code}:{txt}".encode('utf-8')).hexdigest()
@@ -332,7 +332,7 @@ if __name__ == "__main__":
                 current_lang_models['Flat']['x'].append(L_actual)
                 current_lang_models['Flat']['y'].append(np.mean(simulate_flat_merge(L_actual)))
 
-        print("\n    正在生成可视化图表...") 
+        print("\n    Generating visualization charts...") 
 
         h_y = current_lang_models['Hierarchical']['y']
         b_y = current_lang_models['Branching']['y']
@@ -356,17 +356,17 @@ if __name__ == "__main__":
     print("="*85)
 
     if combined_results_for_plot:
-        print(">>> 正在生成多语言对比总图...")
+        print(">>> Generating cross-linguistic comparison figure...")
         plot_combined_24_lines_with_points(combined_results_for_plot)
 
     print("\n" + "="*100)
-    print(f"{'语料/语言':<18} | {'有效句子数':<12} | {'长度均值(Mean)':<15} | {'长度标准差(Std)':<15}")
+    print(f"{'Corpus/Lang':<18} | {'Valid Sents':<12} | {'Mean Length':<15} | {'Std Dev':<15}")
     print("-" * 100)
     
     all_lengths_combined = []
     
     for lang_res in combined_results_for_plot:
-        # 从各语料模型数据中提取句子长度列表
+        # Extract sentence length lists from individual models
         lengths = np.array(lang_res['models']['Hierarchical']['x'])
         
         if len(lengths) > 0:
@@ -374,13 +374,13 @@ if __name__ == "__main__":
             avg_len = np.mean(lengths)
             std_len = np.std(lengths)
             
-            # 打印单个语料信息
+            # Print individual corpus stats
             print(f"{lang_res['name']:<18} | {count:<12} | {avg_len:<15.2f} | {std_len:<15.2f}")
             
-            # 汇总所有长度数据
+            # Aggregate all length data
             all_lengths_combined.extend(lengths)
     
-    # 打印全语料汇总信息
+    # Print global aggregate stats
     if all_lengths_combined:
         all_lengths_combined = np.array(all_lengths_combined)
         total_count = len(all_lengths_combined)
@@ -388,8 +388,8 @@ if __name__ == "__main__":
         total_std = np.std(all_lengths_combined)
         
         print("-" * 100)
-        print(f"{'TOTAL (所有语料)':<18} | {total_count:<12} | {total_avg:<15.2f} | {total_std:<15.2f}")
+        print(f"{'TOTAL (All Corpora)':<18} | {total_count:<12} | {total_avg:<15.2f} | {total_std:<15.2f}")
     
     print("="*100)
 
-    print("\n任务完成。请检查 'figures' 文件夹。")
+    print("\nTask completed. Please check the 'figures' folder.")
