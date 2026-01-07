@@ -8,7 +8,7 @@ Source code and analytical framework for the for the manuscript:
 
 - Luyao Chen $^{1,2}$ [[Google Scholar](https://scholar.google.com/citations?user=lFNU4bsAAAAJ)] (Co-corresponding Author)
 
-- Weibo Gao [[Homepage](http://home.ustc.edu.cn/~weibogao/)] [[Google Scholar](https://scholar.google.com/citations?user=k19RS74AAAAJ)] $^3$
+- Weibo Gao $^3$ [[Homepage](http://home.ustc.edu.cn/~weibogao/)] [[Google Scholar](https://scholar.google.com/citations?user=k19RS74AAAAJ)]
 
 - Junjie Wu $^{4,5,6,7}$
 
