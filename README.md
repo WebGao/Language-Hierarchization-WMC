@@ -29,7 +29,7 @@ Language-Hierarchization-WMC
 ├── OpenNodes_Natural_Language    # Adult natural language validation
 │   ├── data (Classics Corpus)/                     # [To be released upon publication]
 │   └── main.py                   # Script for large-scale corpus analysis
-└── Simulation                    # Simulation
+└── Simulation                    # Simulation of Non-natural Languages
     └── Simulation.ipynb          # Script for simulation
 ```
 
