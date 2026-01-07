@@ -6,15 +6,15 @@ Source code and analytical framework for the for the manuscript:
 
 ## 👥 Authors
 
-- Luyao Chen $^{1,2}$ (Co-corresponding Author)
+- Luyao Chen $^{1,2}$ [[Google Scholar](https://scholar.google.com/citations?user=lFNU4bsAAAAJ)] (Co-corresponding Author)
 
-- Weibo Gao $^3$
+- Weibo Gao [[Homepage](http://home.ustc.edu.cn/~weibogao/)] [[Google Scholar](https://scholar.google.com/citations?user=k19RS74AAAAJ)] $^3$
 
 - Junjie Wu $^{4,5,6,7}$
 
 - Jinshan Wu $^{8}$ (Co-corresponding Author)
 
-- Angela D. Friederici $^{2}$ (Co-corresponding Author & Senior Author)
+- Angela D. Friederici $^{2}$ [[Google Scholar](https://scholar.google.com/citations?user=9-9aZewAAAAJ)] (Co-corresponding Author & Senior Author)
 
 ## 🏫 Affiliations
 
