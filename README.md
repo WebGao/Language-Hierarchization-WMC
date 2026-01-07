@@ -6,7 +6,7 @@ Source code and analytical framework for the for the manuscript:
 
 ## 👥 Authors
 
-- Luyao Chen $^{1,2}$ [[Google Scholar](https://scholar.google.com/citations?user=lFNU4bsAAAAJ)] (Co-corresponding Author)
+- Luyao Chen $^{1,2}$ [[Homepage](https://research.polyu.edu.hk/en/persons/luyao-chen/)] [[Google Scholar](https://scholar.google.com/citations?user=lFNU4bsAAAAJ)] (Co-corresponding Author)
 
 - Weibo Gao $^3$ [[Homepage](http://home.ustc.edu.cn/~weibogao/)] [[Google Scholar](https://scholar.google.com/citations?user=k19RS74AAAAJ)]
 
