@@ -14,7 +14,7 @@ Source code and analytical framework for the for the manuscript:
 
 - Jinshan Wu $^{8}$ (Co-corresponding Author)
 
-- Angela D. Friederici $^{2}$ [[Google Scholar](https://scholar.google.com/citations?user=9-9aZewAAAAJ)] (Co-corresponding Author & Senior Author)
+- Angela D. Friederici $^{2}$ [[Homepage](https://www.mpg.de/390351/human-cognitive-and-brain-sciences-friederici)] [[Google Scholar](https://scholar.google.com/citations?user=9-9aZewAAAAJ)] (Co-corresponding Author & Senior Author)
 
 ## 🏫 Affiliations
 
