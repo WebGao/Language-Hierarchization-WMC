@@ -1,8 +1,38 @@
 # Language Hierarchization and Human Working Memory Limits
 
-This repository provides the computational framework and statistical analysis for the manuscript:
+Source code and analytical framework for the for the manuscript:
 
-**"Language Hierarchization Provides the Optimal Solution to Human Working Memory Limits"**
+**Language Hierarchization Provides the Optimal Solution to Human Working Memory Limits** > Luyao Chen, Weibo Gao, Junjie Wu, Jinshan Wu, and Angela D. Friederici > [[Read the Preprint on arXiv](https://arxiv.org/abs/2601.02740)]
+
+## 👥 Authors
+
+- Luyao Chen $^{1,2}$ (Co-corresponding Author)
+
+- Weibo Gao $^3$
+
+- Junjie Wu $^{4,5,6,7}$
+
+- Jinshan Wu $^{8}$ (Co-corresponding Author)
+
+- Angela D. Friederici $^{2}$ (Co-corresponding Author & Senior Author)
+
+## 🏫 Affiliations
+
+1. Department of Language Science and Technology, Hong Kong Polytechnic University, Hong Kong, China.
+
+2. Department of Neuropsychology, Max Planck Institute for Human Cognitive and Brain Sciences, Leipzig, Germany.
+
+3. State Key Laboratory of Cognitive Intelligence, University of Science and Technology of China, Hefei, China.
+
+4. Academy of Psychology and Behavior, Tianjin Normal University, Tianjin, China.
+
+5. Faculty of Psychology, Tianjin Normal University, Tianjin, China.
+
+6. Department of Linguistics, Macquarie University, Sydney, Australia.
+
+7. Tianjin Key Laboratory of Student Mental Health and Intelligence Assessment, China.
+
+8. School of Systems Science, Beijing Normal University, Beijing, China.
 
 ---
 
