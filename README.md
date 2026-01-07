@@ -26,10 +26,11 @@ Language-Hierarchization-WMC
 ├── OpenNodes_Child               # Developmental trajectory analysis (Ages 3-8)
 │   ├── data (Child Spoken Language Corpus)/                     # [To be released upon publication]
 │   └── main.py                   # Script for developmental evolution analysis
-└── OpenNodes_Natural_Language    # Adult natural language validation
-    ├── data (Classics Corpus)/                     # [To be released upon publication]
-    └── main.py                   # Script for large-scale corpus analysis
-
+├── OpenNodes_Natural_Language    # Adult natural language validation
+│   ├── data (Classics Corpus)/                     # [To be released upon publication]
+│   └── main.py                   # Script for large-scale corpus analysis
+└── Simulation                    # Simulation
+    └── Simulation.ipynb          # Script for simulation
 ```
 
 ---
