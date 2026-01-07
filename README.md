@@ -10,9 +10,9 @@ Source code and analytical framework for the for the manuscript:
 
 - Weibo Gao $^3$ [[Homepage](http://home.ustc.edu.cn/~weibogao/)] [[Google Scholar](https://scholar.google.com/citations?user=k19RS74AAAAJ)]
 
-- Junjie Wu $^{4,5,6,7}$
+- Junjie Wu $^{4,5,6,7}$ [[Google Scholar](https://scholar.google.com/citations?user=bwcc_QQAAAAJ)]
 
-- Jinshan Wu $^{8}$ (Co-corresponding Author)
+- Jinshan Wu $^{8}$ [[Homepage](https://sss.bnu.edu.cn/en/Faculty/Professor/57b496c6027742f8937318062bd698fd.htm)] (Co-corresponding Author)
 
 - Angela D. Friederici $^{2}$ [[Homepage](https://www.mpg.de/390351/human-cognitive-and-brain-sciences-friederici)] [[Google Scholar](https://scholar.google.com/citations?user=9-9aZewAAAAJ)] (Co-corresponding Author & Senior Author)
 
