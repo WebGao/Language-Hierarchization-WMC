@@ -70,6 +70,23 @@ python main.py
 
 ---
 
+## 📜 Citation
+
+If you use this code or data in your research, please cite:
+
+```
+@misc{chen2026language,
+      title={Language Hierarchization Provides the Optimal Solution to Human Working Memory Limits}, 
+      author={Luyao Chen and Weibo Gao and Junjie Wu and Jinshan Wu and Angela D. Friederici},
+      year={2026},
+      eprint={2601.02740},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2601.02740}, 
+}
+```
+---
+
 ## 📄 License
 
 This project is licensed under the **MIT License** - see the [LICENSE](https://opensource.org/licenses/MIT) file for details.
